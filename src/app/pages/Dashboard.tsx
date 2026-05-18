@@ -5,7 +5,7 @@ import { MapPin, Calendar, Heart, TrendingUp, Globe, Plane, Star, Plus, Clock, M
 export default function Dashboard() {
   const stats = [
     { label: "Countries Visited", value: "12", icon: Globe, color: "from-[#2BB3FF] to-[#8ED8FF]" },
-    { label: "Trips Planned", value: "24", icon: Plane, color: "from-purple-400 to-indigo-500" },
+    { label: "Trips Planned", value: "24", icon: Plane, color: "from-indigo-400 to-[#2BB3FF]" },
     { label: "Places Saved", value: "156", icon: Heart, color: "from-pink-400 to-rose-500" },
     { label: "Hours Saved", value: "48", icon: Clock, color: "from-amber-400 to-orange-500" },
   ];
@@ -61,39 +61,61 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen pb-20">
-      <section className="bg-gradient-to-br from-[#EAF6FC] to-white px-6 py-16">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen pb-20" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+      {/* Header with 3D city background */}
+      <section className="relative px-6 py-16 overflow-hidden">
+        {/* Dark gradient base */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0d2140] to-[#102060]" />
+
+        {/* 3D City image */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/images/dashboard_bg.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.22,
+            mixBlendMode: "luminosity",
+          }}
+        />
+
+        {/* Fade overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a1628]/40 to-[#0a1628]/90" />
+        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h1 className="text-5xl md:text-6xl font-extrabold text-[#111111] mb-4">
+            <p className="text-[#8ED8FF] font-semibold text-sm uppercase tracking-widest mb-4">Your Dashboard</p>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4">
               Welcome back,{" "}
-              <span style={{ fontFamily: "Caveat, cursive", fontWeight: 700 }} className="text-[#2BB3FF]">
+              <span style={{ fontFamily: "Caveat, cursive", fontWeight: 800 }} className="text-[#8ED8FF]">
                 Sarah
               </span>
             </h1>
-            <p className="text-xl text-[#7A7A7A]">Your travel dashboard and trip planning hub</p>
+            <p className="text-lg text-white/65">Your travel hub and trip planning command center</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-6 mt-12">
+          {/* Stats row */}
+          <div className="grid md:grid-cols-4 gap-6 mt-10">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <motion.div
                   key={index}
-                  className="bg-white rounded-[24px] p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-[24px] p-6 hover:bg-white/15 transition-all duration-300"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className={`w-14 h-14 bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg`}>
-                    <Icon className="w-7 h-7 text-white" />
+                  <div className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-4xl font-extrabold text-[#111111] mb-1">{stat.value}</div>
-                  <div className="text-sm text-[#7A7A7A] font-medium">{stat.label}</div>
+                  <div className="text-4xl font-extrabold text-white mb-1">{stat.value}</div>
+                  <div className="text-sm text-white/60 font-medium">{stat.label}</div>
                 </motion.div>
               );
             })}
@@ -101,6 +123,7 @@ export default function Dashboard() {
         </div>
       </section>
 
+      {/* Upcoming Trips */}
       <section className="px-6 py-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
@@ -157,6 +180,7 @@ export default function Dashboard() {
         </div>
       </section>
 
+      {/* Past Adventures */}
       <section className="px-6 py-16 bg-[#F7F7F9]">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-extrabold text-[#111111] mb-8">Past Adventures</h2>
@@ -203,6 +227,7 @@ export default function Dashboard() {
         </div>
       </section>
 
+      {/* Saved Places */}
       <section className="px-6 py-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">

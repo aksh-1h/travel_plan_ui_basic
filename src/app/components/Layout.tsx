@@ -18,7 +18,7 @@ export default function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F9]" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div className="min-h-screen bg-[#F7F7F9]" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">

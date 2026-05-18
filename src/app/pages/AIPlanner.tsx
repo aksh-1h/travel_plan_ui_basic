@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Sparkles, MapPin, Calendar, Users, DollarSign, Heart, Coffee, Camera, ShoppingBag, Plane } from "lucide-react";
+import { Sparkles, MapPin, Calendar, Users, DollarSign, Heart } from "lucide-react";
 
 export default function AIPlanner() {
   const navigate = useNavigate();
@@ -10,16 +10,11 @@ export default function AIPlanner() {
     destination: "",
     duration: "",
     travelers: "1",
-    budget: "moderate",
+    budget: "",
     interests: [] as string[],
     startDate: "",
   });
 
-  const budgetOptions = [
-    { id: "budget", label: "Budget", icon: "💰", description: "Under $1000" },
-    { id: "moderate", label: "Moderate", icon: "💳", description: "$1000-3000" },
-    { id: "luxury", label: "Luxury", icon: "💎", description: "$3000+" },
-  ];
 
   const interestOptions = [
     { id: "culture", label: "Culture & History", icon: "🏛️" },
@@ -47,35 +42,61 @@ export default function AIPlanner() {
   };
 
   return (
-    <div className="min-h-screen pb-20">
-      <section className="bg-gradient-to-br from-[#EAF6FC] via-white to-[#DFF5FF] px-6 py-16">
-        <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen pb-20" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+      {/* Hero header with 3D map background */}
+      <section className="relative px-6 pt-16 pb-32 overflow-hidden">
+        {/* Dark gradient base */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0d1f3c] via-[#0a2550] to-[#0c3070]" />
+
+        {/* 3D Map image */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/images/planner_bg.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.25,
+            mixBlendMode: "luminosity",
+          }}
+        />
+
+        {/* Fade overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0d1f3c]/30 via-transparent to-[#0d1f3c]/60" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F7F7F9] to-transparent" />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center mb-12"
           >
-            <div className="w-20 h-20 bg-gradient-to-br from-[#2BB3FF] to-[#8ED8FF] rounded-[24px] flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-[#2BB3FF]/30">
+            <div className="w-20 h-20 bg-gradient-to-br from-[#2BB3FF] to-[#8ED8FF] rounded-[24px] flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-[#2BB3FF]/40">
               <Sparkles className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-extrabold text-[#111111] mb-4">
-              AI-Powered{" "}
-              <span style={{ fontFamily: "Caveat, cursive", fontWeight: 700 }} className="text-[#2BB3FF]">
-                Trip Planner
+            <p className="text-[#8ED8FF] font-semibold text-sm uppercase tracking-widest mb-4">Trip Planner</p>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4">
+              Plan Your{" "}
+              <span style={{ fontFamily: "Caveat, cursive", fontWeight: 800 }} className="text-[#8ED8FF]">
+                Perfect Trip
               </span>
             </h1>
-            <p className="text-xl text-[#7A7A7A]">
-              Tell us about your dream trip and we'll create a personalized itinerary in seconds
+            <p className="text-lg text-white/65">
+              Tell us about your dream trip and we'll build a personalized itinerary tailored to you
             </p>
           </motion.div>
+        </div>
+      </section>
 
+      {/* Form section */}
+      <section className="px-6 pb-20 bg-[#F7F7F9]">
+        <div className="max-w-4xl mx-auto -mt-16 relative z-10">
           <motion.div
             className="bg-white rounded-[32px] shadow-2xl p-10"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
+            {/* Step indicator */}
             <div className="flex items-center justify-between mb-10">
               {[1, 2, 3].map((s) => (
                 <div key={s} className="flex items-center flex-1">
@@ -187,28 +208,22 @@ export default function AIPlanner() {
 
                   <div className="space-y-8">
                     <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-4">
+                      <label className="block text-sm font-semibold text-[#111111] mb-3">
                         <DollarSign className="w-4 h-4 inline mr-2" />
-                        Budget Range
+                        Total Trip Budget
                       </label>
-                      <div className="grid md:grid-cols-3 gap-4">
-                        {budgetOptions.map((option) => (
-                          <button
-                            key={option.id}
-                            type="button"
-                            onClick={() => setFormData({ ...formData, budget: option.id })}
-                            className={`p-6 rounded-2xl border-2 transition-all duration-300 ${
-                              formData.budget === option.id
-                                ? "border-[#2BB3FF] bg-[#EAF6FC] shadow-lg"
-                                : "border-gray-200 hover:border-[#2BB3FF]/50"
-                            }`}
-                          >
-                            <div className="text-4xl mb-2">{option.icon}</div>
-                            <div className="font-bold text-[#111111]">{option.label}</div>
-                            <div className="text-sm text-[#7A7A7A]">{option.description}</div>
-                          </button>
-                        ))}
+                      <div className="relative">
+                        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-[#7A7A7A] font-semibold text-lg select-none">$</span>
+                        <input
+                          type="number"
+                          min="0"
+                          value={formData.budget}
+                          onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                          placeholder="e.g. 2500"
+                          className="w-full pl-10 pr-6 py-4 bg-[#F7F7F9] rounded-2xl border-2 border-transparent focus:border-[#2BB3FF] outline-none transition-all duration-300 text-lg"
+                        />
                       </div>
+                      <p className="text-sm text-[#B5B5B5] mt-2">Enter your estimated total budget in USD for the entire trip</p>
                     </div>
 
                     <div>
@@ -252,7 +267,7 @@ export default function AIPlanner() {
                         <MapPin className="w-5 h-5 text-[#2BB3FF]" />
                         <span className="font-semibold text-[#111111]">Destination</span>
                       </div>
-                      <div className="text-lg text-[#7A7A7A] ml-8">{formData.destination}</div>
+                      <div className="text-lg text-[#7A7A7A] ml-8">{formData.destination || "Not set"}</div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4">
@@ -261,7 +276,7 @@ export default function AIPlanner() {
                           <Calendar className="w-5 h-5 text-[#2BB3FF]" />
                           <span className="font-semibold text-[#111111]">Duration</span>
                         </div>
-                        <div className="text-lg text-[#7A7A7A] ml-8">{formData.duration} days</div>
+                        <div className="text-lg text-[#7A7A7A] ml-8">{formData.duration ? `${formData.duration} days` : "Not set"}</div>
                       </div>
 
                       <div className="p-6 bg-[#F7F7F9] rounded-2xl">
@@ -278,7 +293,7 @@ export default function AIPlanner() {
                         <DollarSign className="w-5 h-5 text-[#2BB3FF]" />
                         <span className="font-semibold text-[#111111]">Budget</span>
                       </div>
-                      <div className="text-lg text-[#7A7A7A] ml-8 capitalize">{formData.budget}</div>
+                      <div className="text-lg text-[#7A7A7A] ml-8">{formData.budget ? `$${Number(formData.budget).toLocaleString()}` : "Not set"}</div>
                     </div>
 
                     <div className="p-6 bg-[#F7F7F9] rounded-2xl">
@@ -287,7 +302,9 @@ export default function AIPlanner() {
                         <span className="font-semibold text-[#111111]">Interests</span>
                       </div>
                       <div className="flex flex-wrap gap-2 ml-8">
-                        {formData.interests.map((id) => {
+                        {formData.interests.length === 0 ? (
+                          <span className="text-[#B5B5B5]">None selected</span>
+                        ) : formData.interests.map((id) => {
                           const interest = interestOptions.find((opt) => opt.id === id);
                           return (
                             <span
@@ -329,7 +346,7 @@ export default function AIPlanner() {
                     className="ml-auto flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#2BB3FF] to-[#8ED8FF] text-white rounded-full font-semibold shadow-lg shadow-[#2BB3FF]/30 hover:shadow-xl hover:shadow-[#2BB3FF]/40 transition-all duration-300 hover:scale-105"
                   >
                     <Sparkles className="w-5 h-5" />
-                    <span>Generate Itinerary</span>
+                    <span>Build My Itinerary</span>
                   </button>
                 )}
               </div>

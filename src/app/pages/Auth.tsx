@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Mail, Lock, User, Plane, Eye, EyeOff, Instagram, Chrome } from "lucide-react";
+import { Mail, Lock, User, Plane, Eye, EyeOff, Chrome, Globe, MapPin, Star } from "lucide-react";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -18,96 +18,96 @@ export default function Auth() {
     navigate("/dashboard");
   };
 
-  const floatAnimation = {
-    y: [0, -20, 0],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-12 bg-gradient-to-br from-[#EAF6FC] via-white to-[#DFF5FF] relative overflow-hidden" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div
+      className="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden"
+      style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
+    >
+      {/* Dark gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0d2140] to-[#0a2a55]" />
+
+      {/* 3D Passport background image */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "url('/images/auth_bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.2,
+          mixBlendMode: "luminosity",
+        }}
+      />
+
+      {/* Fade overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/60 to-[#0a1628]/30" />
+
+      {/* Floating orbs */}
       <motion.div
-        className="absolute top-20 left-10 w-24 h-24 bg-[#2BB3FF]/10 rounded-full blur-2xl"
-        animate={floatAnimation}
+        className="absolute top-16 left-10 w-28 h-28 bg-[#2BB3FF]/15 rounded-full blur-3xl"
+        animate={{ y: [0, -20, 0], transition: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-32 h-32 bg-[#FF4F6D]/10 rounded-full blur-2xl"
-        animate={{ ...floatAnimation, transition: { ...floatAnimation.transition, delay: 1 } }}
-      />
-      <motion.div
-        className="absolute top-1/3 right-1/4 w-20 h-20 bg-[#8ED8FF]/10 rounded-full blur-2xl"
-        animate={{ ...floatAnimation, transition: { ...floatAnimation.transition, delay: 0.5 } }}
+        className="absolute bottom-16 right-10 w-40 h-40 bg-[#8ED8FF]/10 rounded-full blur-3xl"
+        animate={{ y: [0, -15, 0], transition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 } }}
       />
 
       <div className="w-full max-w-6xl grid md:grid-cols-2 gap-12 items-center relative z-10">
+        {/* Left panel */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="hidden md:block"
         >
-          <Link to="/" className="flex items-center gap-3 mb-8 group">
+          <Link to="/" className="flex items-center gap-3 mb-10 group">
             <div className="w-14 h-14 bg-gradient-to-br from-[#2BB3FF] to-[#8ED8FF] rounded-2xl flex items-center justify-center shadow-xl shadow-[#2BB3FF]/30 group-hover:scale-110 transition-transform duration-300">
               <Plane className="w-7 h-7 text-white" />
             </div>
-            <span className="text-3xl font-bold text-[#111111]">Roamy</span>
+            <span className="text-3xl font-bold text-white">Roamy</span>
           </Link>
 
-          <h1 className="text-5xl font-extrabold text-[#111111] mb-6 leading-tight">
+          <h1 className="text-5xl font-extrabold text-white mb-6 leading-tight">
             Start Your{" "}
-            <span style={{ fontFamily: "Caveat, cursive", fontWeight: 700 }} className="text-[#2BB3FF]">
+            <span style={{ fontFamily: "Caveat, cursive", fontWeight: 800 }} className="text-[#8ED8FF]">
               Next Adventure
             </span>{" "}
             Today
           </h1>
 
-          <p className="text-xl text-[#7A7A7A] mb-8 leading-relaxed">
-            Join thousands of travelers planning smarter trips with AI-powered itineraries, personalized
-            recommendations, and seamless collaboration.
+          <p className="text-lg text-white/65 mb-10 leading-relaxed">
+            Join thousands of real travelers planning smarter trips — personalized itineraries,
+            interactive maps, and seamless trip management, all in one place.
           </p>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-[#2BB3FF] to-[#8ED8FF] rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">✓</span>
-              </div>
-              <div>
-                <div className="font-semibold text-[#111111]">AI-Powered Planning</div>
-                <div className="text-sm text-[#7A7A7A]">Get personalized itineraries in seconds</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">✓</span>
-              </div>
-              <div>
-                <div className="font-semibold text-[#111111]">Social Media Integration</div>
-                <div className="text-sm text-[#7A7A7A]">Import saved spots from Instagram & TikTok</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">✓</span>
-              </div>
-              <div>
-                <div className="font-semibold text-[#111111]">Community Discovery</div>
-                <div className="text-sm text-[#7A7A7A]">Explore trips from travelers worldwide</div>
-              </div>
-            </div>
+          <div className="space-y-5">
+            {[
+              { icon: Star, title: "Personalized Planning", desc: "Get itineraries built around your style and budget" },
+              { icon: MapPin, title: "Interactive Maps", desc: "View your full trip visually with pins and routes" },
+              { icon: Globe, title: "180+ Countries", desc: "Explore destinations and community trip reports" },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-[#8ED8FF]" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">{item.title}</div>
+                    <div className="text-sm text-white/60">{item.desc}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </motion.div>
 
+        {/* Right panel — auth form */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl p-10 border border-white">
+          <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-2xl p-10 border border-white/80">
             <div className="mb-8">
               <div className="flex gap-2 p-2 bg-[#F7F7F9] rounded-2xl mb-8">
                 <button
@@ -142,15 +142,11 @@ export default function Auth() {
               </p>
             </div>
 
-            <div className="space-y-4 mb-6">
+            {/* Google only — Instagram removed */}
+            <div className="mb-6">
               <button className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-gray-200 rounded-2xl font-semibold text-[#111111] hover:border-[#2BB3FF] hover:bg-[#EAF6FC]/50 transition-all duration-300">
                 <Chrome className="w-5 h-5" />
                 <span>Continue with Google</span>
-              </button>
-
-              <button className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl font-semibold text-white hover:shadow-xl transition-all duration-300">
-                <Instagram className="w-5 h-5" />
-                <span>Continue with Instagram</span>
               </button>
             </div>
 
@@ -241,7 +237,7 @@ export default function Auth() {
 
               <button
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-[#2BB3FF] to-[#8ED8FF] text-white rounded-2xl font-bold shadow-xl shadow-[#2BB3FF]/30 hover:shadow-2xl hover:shadow-[#2BB3FF]/40 transition-all duration-300 hover:scale-105"
+                className="w-full py-4 bg-gradient-to-r from-[#2BB3FF] to-[#8ED8FF] text-white rounded-2xl font-bold shadow-xl shadow-[#2BB3FF]/30 hover:shadow-2xl hover:shadow-[#2BB3FF]/40 transition-all duration-300 hover:scale-[1.02]"
               >
                 {isLogin ? "Sign In" : "Create Account"}
               </button>

@@ -1,10 +1,11 @@
 import { motion } from "motion/react";
 import { useState } from "react";
-import { Search, MapPin, Star, Heart, TrendingUp, Filter, Globe, Mountain, Waves, Building2 } from "lucide-react";
+import { Search, MapPin, Star, Heart, TrendingUp, Globe, Mountain, Waves, Building2 } from "lucide-react";
 
 export default function Explore() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [likedIds, setLikedIds] = useState<number[]>([]);
 
   const categories = [
     { id: "all", label: "All Destinations", icon: Globe },
@@ -112,24 +113,49 @@ export default function Explore() {
     return matchesCategory && matchesSearch;
   });
 
+  const toggleLike = (id: number) => {
+    setLikedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
   return (
-    <div className="min-h-screen pb-20">
-      <section className="bg-gradient-to-br from-[#EAF6FC] to-white px-6 py-16">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen pb-20" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+      {/* Hero header with 3D globe background */}
+      <section className="relative px-6 py-20 overflow-hidden">
+        {/* Dark gradient bg */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0d1f3c] via-[#0a2a55] to-[#102060]" />
+
+        {/* 3D Globe image */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/images/explore_bg.png')",
+            backgroundSize: "contain",
+            backgroundPosition: "right center",
+            backgroundRepeat: "no-repeat",
+            opacity: 0.3,
+          }}
+        />
+
+        {/* Fade overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d1f3c]/95 via-[#0d1f3c]/70 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F7F7F9] to-transparent" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h1 className="text-5xl md:text-6xl font-extrabold text-[#111111] mb-4">
+            <p className="text-[#8ED8FF] font-semibold text-sm uppercase tracking-widest mb-4">Destinations</p>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4">
               Explore{" "}
-              <span style={{ fontFamily: "Caveat, cursive", fontWeight: 700 }} className="text-[#2BB3FF]">
+              <span style={{ fontFamily: "Caveat, cursive", fontWeight: 800 }} className="text-[#8ED8FF]">
                 Amazing
               </span>{" "}
               Destinations
             </h1>
-            <p className="text-xl text-[#7A7A7A] mb-10">
-              Discover your next adventure from handpicked destinations around the world
+            <p className="text-lg text-white/65 mb-10 max-w-xl">
+              Handpicked destinations from every corner of the globe — beaches, mountains, cities, and beyond.
             </p>
 
             <div className="relative max-w-2xl">
@@ -146,7 +172,8 @@ export default function Explore() {
         </div>
       </section>
 
-      <section className="px-6 py-12">
+      {/* Filter & Grid */}
+      <section className="px-6 py-12 bg-[#F7F7F9]">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-12 overflow-x-auto pb-4">
             {categories.map((category) => {
@@ -156,14 +183,14 @@ export default function Explore() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-full whitespace-nowrap transition-all duration-300 ${
+                  className={`flex items-center gap-2 px-6 py-3 rounded-full whitespace-nowrap transition-all duration-300 font-semibold ${
                     isActive
                       ? "bg-gradient-to-r from-[#2BB3FF] to-[#8ED8FF] text-white shadow-lg shadow-[#2BB3FF]/30"
                       : "bg-white text-[#7A7A7A] hover:bg-gray-50 shadow-md"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="font-semibold">{category.label}</span>
+                  <span>{category.label}</span>
                 </button>
               );
             })}
@@ -187,9 +214,12 @@ export default function Explore() {
                     />
                   </div>
 
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all duration-300 hover:scale-110">
-                    <Heart className="w-5 h-5 text-[#FF4F6D]" />
-                  </div>
+                  <button
+                    onClick={() => toggleLike(destination.id)}
+                    className={`absolute top-4 right-4 w-12 h-12 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 ${likedIds.includes(destination.id) ? 'bg-[#FF4F6D]' : 'bg-white/90 hover:bg-white'}`}
+                  >
+                    <Heart className={`w-5 h-5 ${likedIds.includes(destination.id) ? 'text-white fill-current' : 'text-[#FF4F6D]'}`} />
+                  </button>
 
                   {destination.trending && (
                     <div className="absolute top-4 left-4 px-4 py-2 bg-gradient-to-r from-[#FF4F6D] to-[#FF8A9B] rounded-full text-white text-sm font-semibold shadow-lg flex items-center gap-1">
@@ -198,7 +228,7 @@ export default function Explore() {
                     </div>
                   )}
 
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/85 to-transparent text-white">
                     <div className="flex items-center gap-2 mb-2">
                       <MapPin className="w-4 h-4" />
                       <h3 className="font-bold text-lg">{destination.name}</h3>
